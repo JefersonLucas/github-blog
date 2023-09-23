@@ -11,6 +11,13 @@ export const PostContainer = styled.a`
 	border-radius: 0.625rem;
 
 	background-color: ${({ theme }) => theme.base_post};
+	transition: 0.3s;
+
+	&:hover,
+	&:focus {
+		outline: 0;
+		box-shadow: 0 0 0 2px ${({ theme }) => theme.blue};
+	}
 
 	header {
 		display: flex;
