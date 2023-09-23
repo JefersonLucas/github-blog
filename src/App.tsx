@@ -1,6 +1,7 @@
-import { Post } from '@/pages/Post'
+import { Router } from '@/routes'
 import { GlobalStyle } from '@/styles/global'
 import { defaultTheme } from '@/styles/themes/default'
+import { BrowserRouter } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
 
 export function App() {
@@ -8,7 +9,9 @@ export function App() {
 		<ThemeProvider theme={defaultTheme}>
 			<GlobalStyle />
 
-			<Post />
+			<BrowserRouter>
+				<Router />
+			</BrowserRouter>
 		</ThemeProvider>
 	)
 }
