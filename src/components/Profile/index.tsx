@@ -1,39 +1,57 @@
+import { api } from '@/lib/axios'
 import { ArrowUpRightSquare, Github, MapPin, Users } from 'lucide-react'
+import { useEffect, useState } from 'react'
 import { ProfileContainer, ProfileContent } from './styles'
 
+interface ProfileProps {
+	name: string
+	login: string
+	bio: string
+	html_url: string
+	location: string
+	followers: number
+	avatar_url: string
+}
+
 export function Profile() {
+	const [profile, setProfile] = useState<ProfileProps | null>(null)
+
+	useEffect(() => {
+		api
+			.get('/users/JefersonLucas')
+			.then((response) => setProfile(response.data))
+	}, [])
+
+	if (!profile) return null
+
 	return (
 		<ProfileContainer>
 			<ProfileContent>
-				<img src="https://github.com/JefersonLucas.png" alt="Github profile" />
+				<img src={profile.avatar_url} alt="Github profile" />
 
 				<div>
 					<span>
-						<h1>Jeferson Lucas</h1>
-						<a href="">
+						<h1>{profile.name}</h1>
+						<a href={profile.html_url} target="_blank">
 							Github
 							<ArrowUpRightSquare />
 						</a>
 					</span>
 
-					<p>
-						I'm Brazilian, specialist in Full Stack development and also
-						specializing in mobile development, passionate about technology,
-						music and games.
-					</p>
+					<p>{profile.bio}</p>
 
 					<ul>
 						<li>
 							<Github />
-							<span>JefersonLucas</span>
+							<span>{profile.login}</span>
 						</li>
 						<li>
 							<MapPin />
-							<span>Brasília, DF, Brazil</span>
+							<span>{profile.location}</span>
 						</li>
 						<li>
 							<Users />
-							<span>232 seguidores</span>
+							<span>{profile.followers} seguidores</span>
 						</li>
 					</ul>
 				</div>

@@ -1,3 +1,4 @@
+import { differenceBetweenDates } from '@/util/differenceBetweenDates'
 import {
 	ArrowRightSquare,
 	Calendar,
@@ -7,7 +8,21 @@ import {
 } from 'lucide-react'
 import { PostInfoContainer, PostInfoContent } from './styles'
 
-export function PostInfo() {
+interface PostInfoProps {
+	html_url: string
+	title: string
+	login: string
+	comments: number
+	updated_at: string
+}
+
+export function PostInfo({
+	html_url,
+	title,
+	login,
+	comments,
+	updated_at,
+}: PostInfoProps) {
 	return (
 		<PostInfoContainer>
 			<PostInfoContent>
@@ -16,26 +31,26 @@ export function PostInfo() {
 						<ChevronLeft />
 						Voltar
 					</a>
-					<a href="">
+					<a href={html_url}>
 						Ver no github
 						<ArrowRightSquare />
 					</a>
 				</header>
 
-				<h1>JavaScript data types and data structures</h1>
+				<h1>{title}</h1>
 
 				<ul>
 					<li>
 						<Github />
-						<span>JefersonLucas</span>
+						<span>{login}</span>
 					</li>
 					<li>
 						<Calendar />
-						<span>Há 1 dia</span>
+						<span>{differenceBetweenDates(updated_at)}</span>
 					</li>
 					<li>
 						<MessageSquare />
-						<span>5 comentários</span>
+						<span>{comments} comentários</span>
 					</li>
 				</ul>
 			</PostInfoContent>

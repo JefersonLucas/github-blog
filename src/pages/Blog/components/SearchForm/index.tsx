@@ -1,9 +1,20 @@
+import { ChangeEvent } from 'react'
 import { SearchFormContainer } from './styles'
 
-export function SearchForm() {
+interface SearchFormProps {
+	value: string
+	onChange: ({ target }: ChangeEvent<HTMLInputElement>) => void
+}
+
+export function SearchForm({ value, onChange }: SearchFormProps) {
 	return (
 		<SearchFormContainer>
-			<input type="text" placeholder="Buscar conteúdo" />
+			<input
+				type="text"
+				placeholder="Buscar conteúdo"
+				value={value}
+				onChange={onChange}
+			/>
 		</SearchFormContainer>
 	)
 }
