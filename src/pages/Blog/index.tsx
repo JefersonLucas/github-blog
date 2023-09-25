@@ -2,7 +2,7 @@ import { Cover } from '@/components/Cover'
 import { Post } from '@/components/Post'
 import { Profile } from '@/components/Profile'
 import { api } from '@/lib/axios'
-import { useEffect, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import { SearchForm } from './components/SearchForm'
 import { BlogContainer, BlogFormHeader, PostContainer } from './styles'
 
@@ -16,12 +16,19 @@ interface PostProps {
 
 export function Blog() {
 	const [posts, setPosts] = useState<PostProps[] | null>(null)
+	const [text, setText] = useState<string>('')
 
 	useEffect(() => {
-		api
-			.get('/repos/JefersonLucas/github-blog/issues')
-			.then((response) => setPosts(response.data))
-	}, [])
+		if (!text) {
+			api
+				.get('/repos/JefersonLucas/github-blog/issues')
+				.then((response) => setPosts(response.data))
+		} else {
+			api
+				.get(`/search/issues?q=${text}%20repo:JefersonLucas/github-blog`)
+				.then((response) => setPosts(response.data.items))
+		}
+	}, [text])
 
 	if (!posts) return null
 
@@ -36,7 +43,12 @@ export function Blog() {
 					<span>{posts.length} publicações</span>
 				</BlogFormHeader>
 
-				<SearchForm />
+				<SearchForm
+					value={text}
+					onChange={({ target }: ChangeEvent<HTMLInputElement>) =>
+						setText(target.value)
+					}
+				/>
 
 				<PostContainer>
 					{posts.map((post) => (
