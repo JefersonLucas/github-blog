@@ -1,19 +1,23 @@
+import { differenceBetweenDates } from '@/util/differenceBetweenDates'
 import { PostContainer } from './styles'
 
 interface PostProps {
 	id: string
+	number: string
 	title: string
-	timeline: string
+	created_at: string
 	body: string
 }
 
-export function Post({ id, title, timeline, body }: PostProps) {
+export function Post({ id, number, title, created_at, body }: PostProps) {
 	return (
-		<PostContainer href={`/post/${id}`}>
+		<PostContainer href={`/post/${number}`} id={id}>
 			<header>
 				<h2>{title}</h2>
-				<span>{timeline}</span>
+
+				<span>{differenceBetweenDates(created_at)}</span>
 			</header>
+
 			<p>{body}</p>
 		</PostContainer>
 	)
